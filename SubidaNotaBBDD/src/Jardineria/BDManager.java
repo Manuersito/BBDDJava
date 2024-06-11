@@ -3,7 +3,7 @@ import java.sql.*;
 
 public class BDManager {
     // Configuración de la conexión
-    private static final String URL = "jdbc:mysql://ec2-3-89-24-243.compute-1.amazonaws.com:3306/jardineria";
+    private static final String URL = "jdbc:mysql://ec2-54-221-12-75.compute-1.amazonaws.com:3306/jardineria";
     private static final String USERNAME = "root";
     private static final String PASSWORD = "root";
 

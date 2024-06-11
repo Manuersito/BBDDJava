@@ -1,0 +1,637 @@
+package Jardineria;
+
+import java.sql.Connection;
+import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        mainMenu();
+    }
+
+    public static void mainMenu() {
+        Scanner scanner = new Scanner(System.in);
+        int opcion;
+
+        do {
+            System.out.println("----- Menú Principal -----");
+            System.out.println("1. Inserción");
+            System.out.println("2. Actualización");
+            System.out.println("3. Borrado");
+            System.out.println("4. Consultas");
+            System.out.println("5. Salir");
+            System.out.print("Seleccione una opción: ");
+            opcion = scanner.nextInt();
+            scanner.nextLine(); // Limpiar el buffer del scanner
+
+            switch (opcion) {
+                case 1:
+                    menuInsercion();
+                    break;
+                case 2:
+                    menuActualizacion();
+                    break;
+                case 3:
+                    menuBorrado();
+                    break;
+                case 4:
+                    menuConsultas();
+                    break;
+                case 5:
+                    System.out.println("Saliendo...");
+                    break;
+                default:
+                    System.out.println("Opción inválida. Por favor, seleccione una opción válida.");
+            }
+        } while (opcion != 5);
+
+    }
+
+    public static void menuInsercion() {
+        Scanner scanner = new Scanner(System.in);
+        int opcion;
+
+        do {
+            System.out.println("----- Menú de Inserción -----");
+            System.out.println("1. Inserción de Oficina");
+            System.out.println("2. Inserción de Empleado");
+            System.out.println("3. Inserción de Gama de Producto");
+            System.out.println("4. Inserción de Cliente");
+            System.out.println("5. Inserción de Pedido");
+            System.out.println("6. Volver al menú principal");
+            System.out.print("Seleccione una opción: ");
+            opcion = scanner.nextInt();
+            scanner.nextLine(); // Limpiar el buffer del scanner
+
+            switch (opcion) {
+                case 1:
+                    insertarOficina(scanner);
+                    break;
+                case 2:
+                    insertarEmpleado(scanner);
+                    break;
+                case 3:
+                    insertarGamaProducto(scanner);
+                    break;
+                case 4:
+                    insertarCliente(scanner);
+                    break;
+                case 5:
+                    insertarPedido(scanner);
+                    break;
+                case 6:
+                    System.out.println("Volviendo al menú principal...");
+                    break;
+                default:
+                    System.out.println("Opción inválida. Por favor, seleccione una opción válida.");
+            }
+        } while (opcion != 6);
+
+    }
+
+    public static void menuActualizacion() {
+        // Implementación similar al menú de inserción
+    }
+
+    public static void menuBorrado() {
+        // Implementación similar al menú de inserción
+    }
+
+    public static void menuConsultas() {
+        // Implementación similar al menú de inserción
+    }
+
+    // Métodos de inserción para cada tabla
+    
+    
+    
+    
+    public static void insertarOficina(Scanner scanner) {
+    	// creamos las variables para poder introducir mas tarde los campos
+    	String codigo_oficina, ciudad, pais, region, codigo_postal, telefono, linea_direccion1, linea_direccion2;
+    	
+    	// pedimos todos los datos por teclado
+    	System.out.println("Insertar codigo oficina");
+    	codigo_oficina = scanner.nextLine();
+    	System.out.println("Insertar ciudad");
+    	ciudad = scanner.nextLine();
+    	System.out.println("Insertar pais");
+    	pais= scanner.nextLine();
+    	System.out.println("Insertar region");
+    	region = scanner.nextLine();
+    	System.out.println("Insertar codigo postal");
+    	codigo_postal = scanner.nextLine();
+    	System.out.println("Insertar telefono");
+    	telefono = scanner.nextLine();
+    	System.out.println("Insertar linea direccion 1");
+    	linea_direccion1 = scanner.nextLine();
+    	System.out.println("Insertar linea direccion 2");
+    	linea_direccion2= scanner.nextLine();
+    	
+        System.out.println("Método de inserción de Oficina");
+        // Lógica para insertar una oficina en la base de datos
+        try {
+            Connection connection = BDManager.getConnection();
+            // Preparar la sentencia SQL
+            String query = "INSERT INTO oficina (codigo_oficina, ciudad, pais, region, codigo_postal, telefono, linea_direccion1, linea_direccion2) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+            PreparedStatement statement = connection.prepareStatement(query);
+
+            // Establecer los valores de los parámetros
+            statement.setString(1, codigo_oficina);
+            statement.setString(2, ciudad);
+            statement.setString(3, pais);
+            statement.setString(4, region);
+            statement.setString(5, codigo_postal);
+            statement.setString(6, telefono);
+            statement.setString(7, linea_direccion1);
+            statement.setString(8, linea_direccion2);
+
+            // Ejecutar la consulta
+            int filasAfectadas = statement.executeUpdate();
+
+            if (filasAfectadas > 0) {
+                System.out.println("Oficina insertada correctamente.");
+            } else {
+                System.out.println("No se pudo insertar la oficina.");
+            }
+
+            // Cerrar la conexión
+            BDManager.closeConnection(connection);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        
+    }
+
+    public static void insertarEmpleado(Scanner scanner) {
+        // Declaramos las variables para poder introducir más tarde los campos
+        Integer codigo_empleado, codigo_jefe;
+        String nombre, apellido1, apellido2, extension, email, codigo_oficina, puesto;
+
+        // Pedimos todos los datos por teclado
+        System.out.println("Insertar código empleado");
+        codigo_empleado = scanner.nextInt();
+        scanner.nextLine(); // Limpiar el buffer del scanner
+        System.out.println("Insertar nombre");
+        nombre = scanner.nextLine();
+        System.out.println("Insertar primer apellido");
+        apellido1 = scanner.nextLine();
+        System.out.println("Insertar segundo apellido");
+        apellido2 = scanner.nextLine();
+        System.out.println("Insertar extensión");
+        extension = scanner.nextLine();
+        System.out.println("Insertar email");
+        email = scanner.nextLine();
+        System.out.println("Insertar código oficina");
+        codigo_oficina = scanner.nextLine();
+        System.out.println("Insertar código jefe (puede ser nulo)");
+        String codigo_jefe_input = scanner.nextLine();
+        codigo_jefe = codigo_jefe_input.isEmpty() ? null : Integer.parseInt(codigo_jefe_input);
+        System.out.println("Insertar puesto (puede ser nulo)");
+        puesto = scanner.nextLine();
+
+        System.out.println("Método de inserción de Empleado");
+        // Lógica para insertar un empleado en la base de datos
+        try {
+            Connection connection = BDManager.getConnection();
+            // Preparar la sentencia SQL
+            String query = "INSERT INTO empleado (codigo_empleado, nombre, apellido1, apellido2, extension, email, codigo_oficina, codigo_jefe, puesto) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            PreparedStatement statement = connection.prepareStatement(query);
+
+            // Establecer los valores de los parámetros
+            statement.setInt(1, codigo_empleado);
+            statement.setString(2, nombre);
+            statement.setString(3, apellido1);
+            statement.setString(4, apellido2);
+            statement.setString(5, extension);
+            statement.setString(6, email);
+            statement.setString(7, codigo_oficina);
+            if (codigo_jefe == null) {
+                statement.setNull(8, java.sql.Types.INTEGER);
+            } else {
+                statement.setInt(8, codigo_jefe);
+            }
+            statement.setString(9, puesto);
+
+            // Ejecutar la consulta
+            int filasAfectadas = statement.executeUpdate();
+
+            if (filasAfectadas > 0) {
+                System.out.println("Empleado insertado correctamente.");
+            } else {
+                System.out.println("No se pudo insertar el empleado.");
+            }
+
+            // Cerrar la conexión
+            BDManager.closeConnection(connection);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void insertarGamaProducto(Scanner scanner) {
+        // Declaramos las variables para poder introducir más tarde los campos
+        String gama, descripcion_texto, descripcion_html, imagen;
+
+        // Pedimos todos los datos por teclado
+        System.out.println("Insertar gama de producto");
+        gama = scanner.nextLine();
+        System.out.println("Insertar descripción en texto");
+        descripcion_texto = scanner.nextLine();
+        System.out.println("Insertar descripción en HTML");
+        descripcion_html = scanner.nextLine();
+        System.out.println("Insertar URL de la imagen");
+        imagen = scanner.nextLine();
+
+        System.out.println("Método de inserción de Gama de Producto");
+        // Lógica para insertar una gama de producto en la base de datos
+        try {
+            Connection connection = BDManager.getConnection();
+            // Preparar la sentencia SQL
+            String query = "INSERT INTO gama_producto (gama, descripcion_texto, descripcion_html, imagen) VALUES (?, ?, ?, ?)";
+            PreparedStatement statement = connection.prepareStatement(query);
+
+            // Establecer los valores de los parámetros
+            statement.setString(1, gama);
+            statement.setString(2, descripcion_texto);
+            statement.setString(3, descripcion_html);
+            statement.setString(4, imagen);
+
+            // Ejecutar la consulta
+            int filasAfectadas = statement.executeUpdate();
+
+            if (filasAfectadas > 0) {
+                System.out.println("Gama de producto insertada correctamente.");
+            } else {
+                System.out.println("No se pudo insertar la gama de producto.");
+            }
+
+            // Cerrar la conexión
+            BDManager.closeConnection(connection);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    public static void insertarCliente(Scanner scanner) {
+        // Declaramos las variables para poder introducir más tarde los campos
+        int codigo_cliente;
+        String nombre_cliente, nombre_contacto, apellido_contacto, telefono, fax, linea_direccion1, linea_direccion2, ciudad, region, pais, codigo_postal;
+        Integer codigo_empleado_rep_ventas = null;
+        Double limite_credito = null;
+
+        // Pedimos todos los datos por teclado
+        System.out.println("Insertar código de cliente");
+        codigo_cliente = scanner.nextInt();
+        scanner.nextLine(); // Limpiar el buffer del scanner
+        System.out.println("Insertar nombre del cliente");
+        nombre_cliente = scanner.nextLine();
+        System.out.println("Insertar nombre del contacto");
+        nombre_contacto = scanner.nextLine();
+        System.out.println("Insertar apellido del contacto");
+        apellido_contacto = scanner.nextLine();
+        System.out.println("Insertar teléfono");
+        telefono = scanner.nextLine();
+        System.out.println("Insertar fax");
+        fax = scanner.nextLine();
+        System.out.println("Insertar línea de dirección 1");
+        linea_direccion1 = scanner.nextLine();
+        System.out.println("Insertar línea de dirección 2");
+        linea_direccion2 = scanner.nextLine();
+        System.out.println("Insertar ciudad");
+        ciudad = scanner.nextLine();
+        System.out.println("Insertar región");
+        region = scanner.nextLine();
+        System.out.println("Insertar país");
+        pais = scanner.nextLine();
+        System.out.println("Insertar código postal");
+        codigo_postal = scanner.nextLine();
+        System.out.println("Insertar código del empleado representante de ventas (puede ser nulo)");
+        String codigo_empleado_rep_ventas_input = scanner.nextLine();
+        if (!codigo_empleado_rep_ventas_input.isEmpty()) {
+            codigo_empleado_rep_ventas = Integer.parseInt(codigo_empleado_rep_ventas_input);
+        }
+        System.out.println("Insertar límite de crédito (puede ser nulo)");
+        String limite_credito_input = scanner.nextLine();
+        if (!limite_credito_input.isEmpty()) {
+            limite_credito = Double.parseDouble(limite_credito_input);
+        }
+
+        System.out.println("Método de inserción de Cliente");
+        // Lógica para insertar un cliente en la base de datos
+        try {
+            Connection connection = BDManager.getConnection();
+            // Preparar la sentencia SQL
+            String query = "INSERT INTO cliente (codigo_cliente, nombre_cliente, nombre_contacto, apellido_contacto, telefono, fax, linea_direccion1, linea_direccion2, ciudad, region, pais, codigo_postal, codigo_empleado_rep_ventas, limite_credito) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            PreparedStatement statement = connection.prepareStatement(query);
+
+            // Establecer los valores de los parámetros
+            statement.setInt(1, codigo_cliente);
+            statement.setString(2, nombre_cliente);
+            statement.setString(3, nombre_contacto);
+            statement.setString(4, apellido_contacto);
+            statement.setString(5, telefono);
+            statement.setString(6, fax);
+            statement.setString(7, linea_direccion1);
+            statement.setString(8, linea_direccion2);
+            statement.setString(9, ciudad);
+            statement.setString(10, region);
+            statement.setString(11, pais);
+            statement.setString(12, codigo_postal);
+            if (codigo_empleado_rep_ventas == null) {
+                statement.setNull(13, java.sql.Types.INTEGER);
+            } else {
+                statement.setInt(13, codigo_empleado_rep_ventas);
+            }
+            if (limite_credito == null) {
+                statement.setNull(14, java.sql.Types.DECIMAL);
+            } else {
+                statement.setDouble(14, limite_credito);
+            }
+
+            // Ejecutar la consulta
+            int filasAfectadas = statement.executeUpdate();
+
+            if (filasAfectadas > 0) {
+                System.out.println("Cliente insertado correctamente.");
+            } else {
+                System.out.println("No se pudo insertar el cliente.");
+            }
+
+            // Cerrar la conexión
+            BDManager.closeConnection(connection);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    public static void insertarPedido(Scanner scanner) {
+        // Declaramos las variables para poder introducir más tarde los campos
+        int codigo_pedido, codigo_cliente;
+        String estado, comentarios;
+        Date fecha_pedido, fecha_esperada, fecha_entrega = null;
+
+        // Pedimos todos los datos por teclado
+        System.out.println("Insertar código de pedido");
+        codigo_pedido = scanner.nextInt();
+        scanner.nextLine(); // Limpiar el buffer del scanner
+        System.out.println("Insertar fecha de pedido (yyyy-mm-dd)");
+        fecha_pedido = Date.valueOf(scanner.nextLine());
+        System.out.println("Insertar fecha esperada (yyyy-mm-dd)");
+        fecha_esperada = Date.valueOf(scanner.nextLine());
+        System.out.println("Insertar fecha de entrega (puede ser nulo) (yyyy-mm-dd)");
+        String fecha_entrega_input = scanner.nextLine();
+        if (!fecha_entrega_input.isEmpty()) {
+            fecha_entrega = Date.valueOf(fecha_entrega_input);
+        }
+        System.out.println("Insertar estado");
+        estado = scanner.nextLine();
+        System.out.println("Insertar comentarios (puede ser nulo)");
+        comentarios = scanner.nextLine();
+        System.out.println("Insertar código de cliente");
+        codigo_cliente = scanner.nextInt();
+        scanner.nextLine(); // Limpiar el buffer del scanner
+
+        System.out.println("Método de inserción de Pedido");
+        // Lógica para insertar un pedido en la base de datos
+        try {
+            Connection connection = BDManager.getConnection();
+            // Preparar la sentencia SQL
+            String query = "INSERT INTO pedido (codigo_pedido, fecha_pedido, fecha_esperada, fecha_entrega, estado, comentarios, codigo_cliente) VALUES (?, ?, ?, ?, ?, ?, ?)";
+            PreparedStatement statement = connection.prepareStatement(query);
+
+            // Establecer los valores de los parámetros
+            statement.setInt(1, codigo_pedido);
+            statement.setDate(2, fecha_pedido);
+            statement.setDate(3, fecha_esperada);
+            if (fecha_entrega == null) {
+                statement.setNull(4, java.sql.Types.DATE);
+            } else {
+                statement.setDate(4, fecha_entrega);
+            }
+            statement.setString(5, estado);
+            statement.setString(6, comentarios);
+            statement.setInt(7, codigo_cliente);
+
+            // Ejecutar la consulta
+            int filasAfectadas = statement.executeUpdate();
+
+            if (filasAfectadas > 0) {
+                System.out.println("Pedido insertado correctamente.");
+            } else {
+                System.out.println("No se pudo insertar el pedido.");
+            }
+
+            // Cerrar la conexión
+            BDManager.closeConnection(connection);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    
+    public static void actualizarCiudadOficina(Scanner scanner) {
+        // Declaramos las variables para poder introducir más tarde los campos
+        String codigo_oficina, nueva_ciudad;
+
+        // Pedimos los datos por teclado
+        System.out.println("Insertar código de oficina");
+        codigo_oficina = scanner.nextLine();
+        System.out.println("Insertar nueva ciudad");
+        nueva_ciudad = scanner.nextLine();
+
+        System.out.println("Método de actualización de ciudad de Oficina");
+        // Lógica para actualizar la ciudad de una oficina en la base de datos
+        try {
+            Connection connection = BDManager.getConnection();
+            // Preparar la sentencia SQL
+            String query = "UPDATE oficina SET ciudad = ? WHERE codigo_oficina = ?";
+            PreparedStatement statement = connection.prepareStatement(query);
+
+            // Establecer los valores de los parámetros
+            statement.setString(1, nueva_ciudad);
+            statement.setString(2, codigo_oficina);
+
+            // Ejecutar la consulta
+            int filasAfectadas = statement.executeUpdate();
+
+            if (filasAfectadas > 0) {
+                System.out.println("Ciudad de la oficina actualizada correctamente.");
+            } else {
+                System.out.println("No se pudo actualizar la ciudad de la oficina.");
+            }
+
+            // Cerrar la conexión
+            BDManager.closeConnection(connection);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void actualizarNombreEmpleado(Scanner scanner) {
+        // Declaramos las variables para poder introducir más tarde los campos
+        int codigo_empleado;
+        String nuevo_nombre;
+
+        // Pedimos los datos por teclado
+        System.out.println("Insertar código de empleado");
+        codigo_empleado = scanner.nextInt();
+        scanner.nextLine(); // Limpiar el buffer del scanner
+        System.out.println("Insertar nuevo nombre");
+        nuevo_nombre = scanner.nextLine();
+
+        System.out.println("Método de actualización de nombre de Empleado");
+        // Lógica para actualizar el nombre de un empleado en la base de datos
+        try {
+            Connection connection = BDManager.getConnection();
+            // Preparar la sentencia SQL
+            String query = "UPDATE empleado SET nombre = ? WHERE codigo_empleado = ?";
+            PreparedStatement statement = connection.prepareStatement(query);
+
+            // Establecer los valores de los parámetros
+            statement.setString(1, nuevo_nombre);
+            statement.setInt(2, codigo_empleado);
+
+            // Ejecutar la consulta
+            int filasAfectadas = statement.executeUpdate();
+
+            if (filasAfectadas > 0) {
+                System.out.println("Nombre del empleado actualizado correctamente.");
+            } else {
+                System.out.println("No se pudo actualizar el nombre del empleado.");
+            }
+
+            // Cerrar la conexión
+            BDManager.closeConnection(connection);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void actualizarDescripcionTextoGamaProducto(Scanner scanner) {
+        // Declaramos las variables para poder introducir más tarde los campos
+        String gama, nueva_descripcion_texto;
+
+        // Pedimos los datos por teclado
+        System.out.println("Insertar gama de producto");
+        gama = scanner.nextLine();
+        System.out.println("Insertar nueva descripción en texto");
+        nueva_descripcion_texto = scanner.nextLine();
+
+        System.out.println("Método de actualización de descripción en texto de Gama de Producto");
+        // Lógica para actualizar la descripción en texto de una gama de producto en la base de datos
+        try {
+            Connection connection = BDManager.getConnection();
+            // Preparar la sentencia SQL
+            String query = "UPDATE gama_producto SET descripcion_texto = ? WHERE gama = ?";
+            PreparedStatement statement = connection.prepareStatement(query);
+
+            // Establecer los valores de los parámetros
+            statement.setString(1, nueva_descripcion_texto);
+            statement.setString(2, gama);
+
+            // Ejecutar la consulta
+            int filasAfectadas = statement.executeUpdate();
+
+            if (filasAfectadas > 0) {
+                System.out.println("Descripción en texto de la gama de producto actualizada correctamente.");
+            } else {
+                System.out.println("No se pudo actualizar la descripción en texto de la gama de producto.");
+            }
+
+            // Cerrar la conexión
+            BDManager.closeConnection(connection);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void actualizarTelefonoCliente(Scanner scanner) {
+        // Declaramos las variables para poder introducir más tarde los campos
+        int codigo_cliente;
+        String nuevo_telefono;
+
+        // Pedimos los datos por teclado
+        System.out.println("Insertar código de cliente");
+        codigo_cliente = scanner.nextInt();
+        scanner.nextLine(); // Limpiar el buffer del scanner
+        System.out.println("Insertar nuevo teléfono");
+        nuevo_telefono = scanner.nextLine();
+
+        System.out.println("Método de actualización de teléfono de Cliente");
+        // Lógica para actualizar el teléfono de un cliente en la base de datos
+        try {
+            Connection connection = BDManager.getConnection();
+            // Preparar la sentencia SQL
+            String query = "UPDATE cliente SET telefono = ? WHERE codigo_cliente = ?";
+            PreparedStatement statement = connection.prepareStatement(query);
+
+            // Establecer los valores de los parámetros
+            statement.setString(1, nuevo_telefono);
+            statement.setInt(2, codigo_cliente);
+
+            // Ejecutar la consulta
+            int filasAfectadas = statement.executeUpdate();
+
+            if (filasAfectadas > 0) {
+                System.out.println("Teléfono del cliente actualizado correctamente.");
+            } else {
+                System.out.println("No se pudo actualizar el teléfono del cliente.");
+            }
+
+            // Cerrar la conexión
+            BDManager.closeConnection(connection);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void actualizarEstadoPedido(Scanner scanner) {
+        // Declaramos las variables para poder introducir más tarde los campos
+        int codigo_pedido;
+        String nuevo_estado;
+
+        // Pedimos los datos por teclado
+        System.out.println("Insertar código de pedido");
+        codigo_pedido = scanner.nextInt();
+        scanner.nextLine(); // Limpiar el buffer del scanner
+        System.out.println("Insertar nuevo estado");
+        nuevo_estado = scanner.nextLine();
+
+        System.out.println("Método de actualización de estado de Pedido");
+        // Lógica para actualizar el estado de un pedido en la base de datos
+        try {
+            Connection connection = BDManager.getConnection();
+            // Preparar la sentencia SQL
+            String query = "UPDATE pedido SET estado = ? WHERE codigo_pedido = ?";
+            PreparedStatement statement = connection.prepareStatement(query);
+
+            // Establecer los valores de los parámetros
+            statement.setString(1, nuevo_estado);
+            statement.setInt(2, codigo_pedido);
+
+            // Ejecutar la consulta
+            int filasAfectadas = statement.executeUpdate();
+
+            if (filasAfectadas > 0) {
+                System.out.println("Estado del pedido actualizado correctamente.");
+            } else {
+                System.out.println("No se pudo actualizar el estado del pedido.");
+            }
+
+            // Cerrar la conexión
+            BDManager.closeConnection(connection);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    
+    
+    // Métodos similares para las operaciones de actualización, borrado y consultas...
+}
+
